@@ -1,0 +1,1569 @@
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElloitFxMarket | Premium Global Trading Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0a192f;
+            --secondary: #112240;
+            --accent: #64ffda;
+            --accent-hover: #4fd1b8;
+            --text-primary: #e6f1ff;
+            --text-secondary: #8892b0;
+            --danger: #ff6b6b;
+            --success: #4ade80;
+            --warning: #fbbf24;
+            --gradient: linear-gradient(135deg, #0a192f 0%, #1a365d 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Demo Watermark */
+        .demo-watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.05);
+            pointer-events: none;
+            z-index: 9999;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            background: rgba(10, 25, 47, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-outline:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-top: 80px;
+            padding: 4rem 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            min-height: 90vh;
+            background: var(--gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1611974765270-ca1258634369?w=1920') center/cover;
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .hero h1 span {
+            color: var(--accent);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .hero-image {
+            position: relative;
+            z-index: 1;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .location-badges {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .badge {
+            background: rgba(10, 25, 47, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--accent);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Market Ticker */
+        .ticker {
+            background: var(--secondary);
+            padding: 1rem 0;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+            overflow: hidden;
+        }
+
+        .ticker-content {
+            display: flex;
+            animation: scroll 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ticker-item.up { color: var(--success); }
+        .ticker-item.down { color: var(--danger); }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 5%;
+            background: var(--primary);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(100, 255, 218, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Dashboard Section (Hidden by default) */
+        .dashboard {
+            display: none;
+            padding: 2rem;
+            margin-top: 80px;
+            background: var(--primary);
+            min-height: 100vh;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .balance-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .balance-card {
+            background: var(--secondary);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .balance-card h4 {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .balance-amount {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .balance-change {
+            font-size: 0.9rem;
+            color: var(--success);
+        }
+
+        .trading-interface {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .chart-container {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            height: 500px;
+            position: relative;
+        }
+
+        .trade-panel {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .trade-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .trade-tab {
+            flex: 1;
+            padding: 0.75rem;
+            background: transparent;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .trade-tab.active {
+            background: var(--accent);
+            color: var(--primary);
+            border-color: var(--accent);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            color: var(--text-primary);
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Admin Panel (Hidden by default) */
+        .admin-panel {
+            display: none;
+            padding: 2rem;
+            margin-top: 80px;
+            background: var(--primary);
+            min-height: 100vh;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .admin-sidebar {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            height: fit-content;
+        }
+
+        .admin-menu {
+            list-style: none;
+        }
+
+        .admin-menu li {
+            margin-bottom: 1rem;
+        }
+
+        .admin-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .admin-menu a:hover, .admin-menu a.active {
+            background: rgba(100, 255, 218, 0.1);
+            color: var(--accent);
+        }
+
+        .admin-content {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .users-table th, .users-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .users-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .users-table td {
+            color: var(--text-primary);
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--warning);
+        }
+
+        .action-btn {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Withdrawal Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: var(--secondary);
+            padding: 2rem;
+            border-radius: 10px;
+            border: 1px solid var(--accent);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .bank-options {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .bank-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--primary);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .bank-option:hover {
+            border-color: var(--accent);
+        }
+
+        .bank-option.selected {
+            border-color: var(--accent);
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+        /* WhatsApp Widget */
+        .whatsapp-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1500;
+        }
+
+        .whatsapp-button {
+            width: 60px;
+            height: 60px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.4);
+            transition: transform 0.3s;
+            text-decoration: none;
+        }
+
+        .whatsapp-button:hover {
+            transform: scale(1.1);
+        }
+
+        .whatsapp-tooltip {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: white;
+            color: #333;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .whatsapp-widget:hover .whatsapp-tooltip {
+            opacity: 1;
+        }
+
+        /* Live Chat Widget */
+        .live-chat {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 1500;
+        }
+
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(100, 255, 218, 0.4);
+            transition: transform 0.3s;
+            border: none;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-window {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            width: 350px;
+            height: 450px;
+            background: var(--secondary);
+            border-radius: 10px;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .chat-window.active {
+            display: flex;
+        }
+
+        .chat-header {
+            background: var(--primary);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .chat-body {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .chat-message.support {
+            background: rgba(100, 255, 218, 0.1);
+            align-self: flex-start;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+        }
+
+        .chat-message.user {
+            background: var(--accent);
+            color: var(--primary);
+            align-self: flex-end;
+        }
+
+        .chat-input {
+            padding: 1rem;
+            background: var(--primary);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--secondary);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            color: var(--text-primary);
+            border-radius: 5px;
+        }
+
+        .chat-input button {
+            background: var(--accent);
+            border: none;
+            color: var(--primary);
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--secondary);
+            padding: 3rem 5%;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .trading-interface {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Utility Classes */
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .mt-2 { margin-top: 2rem; }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 30px;
+            background: var(--secondary);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 5px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            max-width: 350px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .toast-message {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Demo Watermark -->
+    <div class="demo-watermark">DEMO ONLY</div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-chart-line"></i>
+            ElloitFxMarket
+        </div>
+        <ul class="nav-links">
+            <li><a href="#home" onclick="showSection('home')">Home</a></li>
+            <li><a href="#markets">Markets</a></li>
+            <li><a href="#trading" onclick="showSection('dashboard')">Trading</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-buttons">
+            <button class="btn btn-outline" onclick="showSection('admin')">Admin Access</button>
+            <button class="btn btn-primary" onclick="loginDemo()">Client Login</button>
+        </div>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home-section" class="hero">
+        <div class="hero-content">
+            <h1>Trade Global Markets with <span>Confidence</span></h1>
+            <p>Access South African and US markets with institutional-grade trading infrastructure. Advanced charting, deep liquidity, and lightning-fast execution.</p>
+            <button class="btn btn-primary" onclick="showSection('dashboard')">Start Trading Now</button>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">$2.4B+</div>
+                    <div class="stat-label">Daily Volume</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Currency Pairs</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">0.0</div>
+                    <div class="stat-label">Spreads from</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800" alt="Financial District">
+            <div class="location-badges">
+                <div class="badge"><i class="fas fa-map-marker-alt"></i> Johannesburg</div>
+                <div class="badge"><i class="fas fa-map-marker-alt"></i> New York</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Ticker -->
+    <div class="ticker">
+        <div class="ticker-content">
+            <div class="ticker-item up">
+                <span>EUR/USD</span>
+                <span>1.0845</span>
+                <i class="fas fa-arrow-up"></i>
+                <span>+0.32%</span>
+            </div>
+            <div class="ticker-item down">
+                <span>GBP/USD</span>
+                <span>1.2632</span>
+                <i class="fas fa-arrow-down"></i>
+                <span>-0.15%</span>
+            </div>
+            <div class="ticker-item up">
+                <span>USD/ZAR</span>
+                <span>18.7421</span>
+                <i class="fas fa-arrow-up"></i>
+                <span>+0.89%</span>
+            </div>
+            <div class="ticker-item up">
+                <span>USD/JPY</span>
+                <span>149.82</span>
+                <i class="fas fa-arrow-up"></i>
+                <span>+0.45%</span>
+            </div>
+            <div class="ticker-item down">
+                <span>AUD/USD</span>
+                <span>0.6523</span>
+                <i class="fas fa-arrow-down"></i>
+                <span>-0.22%</span>
+            </div>
+            <div class="ticker-item up">
+                <span>USD/CAD</span>
+                <span>1.3512</span>
+                <i class="fas fa-arrow-up"></i>
+                <span>+0.18%</span>
+            </div>
+            <!-- Duplicate for infinite scroll -->
+            <div class="ticker-item up">
+                <span>EUR/USD</span>
+                <span>1.0845</span>
+                <i class="fas fa-arrow-up"></i>
+                <span>+0.32%</span>
+            </div>
+            <div class="ticker-item down">
+                <span>GBP/USD</span>
+                <span>1.2632</span>
+                <i class="fas fa-arrow-down"></i>
+                <span>-0.15%</span>
+            </div>
+            <div class="ticker-item up">
+                <span>USD/ZAR</span>
+                <span>18.7421</span>
+                <i class="fas fa-arrow-up"></i>
+                <span>+0.89%</span>
+            </div>
+            <div class="ticker-item up">
+                <span>USD/JPY</span>
+                <span>149.82</span>
+                <i class="fas fa-arrow-up"></i>
+                <span>+0.45%</span>
+            </div>
+            <div class="ticker-item down">
+                <span>AUD/USD</span>
+                <span>0.6523</span>
+                <i class="fas fa-arrow-down"></i>
+                <span>-0.22%</span>
+            </div>
+            <div class="ticker-item up">
+                <span>USD/CAD</span>
+                <span>1.3512</span>
+                <i class="fas fa-arrow-up"></i>
+                <span>+0.18%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <section class="features">
+        <h2 class="section-title">Why Trade With ElloitFxMarket</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Bank-Grade Security</h3>
+                <p>Your funds are protected with 256-bit SSL encryption and segregated accounts in tier-1 banks across South Africa and the United States.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>Instant Execution</h3>
+                <p>Trade with ultra-low latency on our NY4 and Johannesburg data centers. Average execution speed under 50ms.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <h3>Local Banking</h3>
+                <p>Deposit and withdraw via local banks in South Africa (FNB, Standard Bank, ABSA) or US wire transfers. Fast, secure processing.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>Our trading support team is available around the clock via WhatsApp, live chat, and phone in English and local languages.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <h3>Advanced Analytics</h3>
+                <p>Access professional charting tools, technical indicators, and real-time market analysis from our Johannesburg and NYC research desks.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3>Mobile Trading</h3>
+                <p>Trade on the go with our award-winning mobile apps for iOS and Android. Never miss a market opportunity.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Dashboard -->
+    <section id="dashboard" class="dashboard">
+        <div class="dashboard-header">
+            <div class="user-info">
+                <div class="user-avatar">JD</div>
+                <div>
+                    <h2>John Doe</h2>
+                    <p style="color: var(--text-secondary);">Premium Account • Verified</p>
+                </div>
+            </div>
+            <div style="display: flex; gap: 1rem;">
+                <button class="btn btn-outline" onclick="openWithdrawalModal()">
+                    <i class="fas fa-university"></i> Withdraw Funds
+                </button>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Deposit
+                </button>
+                <button class="btn btn-outline" onclick="showSection('home')">Logout</button>
+            </div>
+        </div>
+
+        <div class="balance-cards">
+            <div class="balance-card">
+                <h4>Trading Balance</h4>
+                <div class="balance-amount" id="trading-balance">$25,430.00</div>
+                <div class="balance-change">+12.5% this month</div>
+            </div>
+            <div class="balance-card">
+                <h4>Available Margin</h4>
+                <div class="balance-amount">$18,245.50</div>
+                <div class="balance-change">72% available</div>
+            </div>
+            <div class="balance-card">
+                <h4>Open P&L</h4>
+                <div class="balance-amount" style="color: var(--success);">+$1,240.80</div>
+                <div class="balance-change">3 open positions</div>
+            </div>
+            <div class="balance-card">
+                <h4>Total Equity</h4>
+                <div class="balance-amount">$26,670.80</div>
+                <div class="balance-change">Lifetime +156%</div>
+            </div>
+        </div>
+
+        <div class="trading-interface">
+            <div class="chart-container">
+                <canvas id="tradingChart"></canvas>
+            </div>
+            <div class="trade-panel">
+                <div class="trade-tabs">
+                    <button class="trade-tab active" onclick="switchTab(this, 'buy')">BUY</button>
+                    <button class="trade-tab" onclick="switchTab(this, 'sell')">SELL</button>
+                </div>
+                
+                <div class="form-group">
+                    <label>Instrument</label>
+                    <select id="instrument">
+                        <option>EUR/USD</option>
+                        <option>GBP/USD</option>
+                        <option>USD/ZAR</option>
+                        <option>USD/JPY</option>
+                        <option>XAU/USD</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Volume (Lots)</label>
+                    <input type="number" value="0.10" step="0.01" min="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label>Stop Loss</label>
+                    <input type="number" placeholder="1.0800">
+                </div>
+
+                <div class="form-group">
+                    <label>Take Profit</label>
+                    <input type="number" placeholder="1.1000">
+                </div>
+
+                <button class="btn btn-success" style="width: 100%; margin-top: 1rem;" onclick="placeTrade()">
+                    Place Trade
+                </button>
+
+                <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(100,255,218,0.1);">
+                    <h4 style="margin-bottom: 1rem; color: var(--text-secondary);">Quick Withdrawal</h4>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="openWithdrawalModal()">
+                        <i class="fas fa-university"></i> Bank Transfer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin-panel" class="admin-panel">
+        <div class="dashboard-header">
+            <h2><i class="fas fa-cog" style="color: var(--accent); margin-right: 0.5rem;"></i>Admin Control Center</h2>
+            <button class="btn btn-outline" onclick="showSection('home')">Exit Admin</button>
+        </div>
+
+        <div class="admin-grid">
+            <div class="admin-sidebar">
+                <ul class="admin-menu">
+                    <li><a href="#" class="active" onclick="showAdminTab('users')"><i class="fas fa-users"></i> User Management</a></li>
+                    <li><a href="#" onclick="showAdminTab('funding')"><i class="fas fa-money-bill-wave"></i> Fund Accounts</a></li>
+                    <li><a href="#" onclick="showAdminTab('withdrawals')"><i class="fas fa-university"></i> Withdrawals</a></li>
+                    <li><a href="#" onclick="showAdminTab('reports')"><i class="fas fa-chart-pie"></i> Reports</a></li>
+                    <li><a href="#" onclick="showAdminTab('settings')"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </div>
+
+            <div class="admin-content" id="admin-users">
+                <h3>User Management</h3>
+                <div style="margin-top: 1.5rem; overflow-x: auto;">
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>john.doe@email.com</td>
+                                <td>$25,430.00</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <button class="action-btn" onclick="openFundModal('John Doe')">Fund</button>
+                                    <button class="action-btn">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sarah Smith</td>
+                                <td>sarah.s@email.com</td>
+                                <td>$12,150.00</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td>
+                                    <button class="action-btn" onclick="openFundModal('Sarah Smith')">Fund</button>
+                                    <button class="action-btn">Edit</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mike Johnson</td>
+                                <td>mike.j@email.com</td>
+                                <td>$0.00</td>
+                                <td><span class="status-badge status-pending">Pending</span></td>
+                                <td>
+                                    <button class="action-btn" onclick="openFundModal('Mike Johnson')">Fund</button>
+                                    <button class="action-btn">Verify</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-content hidden" id="admin-funding">
+                <h3>Account Funding</h3>
+                <p style="color: var(--text-secondary); margin: 1rem 0;">Select a user from the User Management tab to fund their account, or use quick fund below.</p>
+                
+                <div class="form-group">
+                    <label>Select User</label>
+                    <select id="fund-user-select">
+                        <option>John Doe (john.doe@email.com)</option>
+                        <option>Sarah Smith (sarah.s@email.com)</option>
+                        <option>Mike Johnson (mike.j@email.com)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Amount (USD)</label>
+                    <input type="number" id="fund-amount" placeholder="Enter amount">
+                </div>
+                
+                <div class="form-group">
+                    <label>Funding Method</label>
+                    <select>
+                        <option>Admin Credit</option>
+                        <option>Wire Transfer</option>
+                        <option>Crypto Deposit</option>
+                    </select>
+                </div>
+                
+                <button class="btn btn-primary" onclick="processFunding()">Process Funding</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Withdrawal Modal -->
+    <div id="withdrawal-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-university" style="color: var(--accent); margin-right: 0.5rem;"></i>Bank Withdrawal</h3>
+                <button class="close-modal" onclick="closeWithdrawalModal()">&times;</button>
+            </div>
+            
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Select your bank for withdrawal. Funds will be processed within 24 hours.</p>
+            
+            <div class="bank-options">
+                <div class="bank-option selected" onclick="selectBank(this)">
+                    <i class="fas fa-university" style="font-size: 1.5rem; color: var(--accent);"></i>
+                    <div>
+                        <div style="font-weight: bold;">First National Bank (FNB)</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">South Africa</div>
+                    </div>
+                </div>
+                <div class="bank-option" onclick="selectBank(this)">
+                    <i class="fas fa-university" style="font-size: 1.5rem; color: var(--accent);"></i>
+                    <div>
+                        <div style="font-weight: bold;">Standard Bank</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">South Africa</div>
+                    </div>
+                </div>
+                <div class="bank-option" onclick="selectBank(this)">
+                    <i class="fas fa-university" style="font-size: 1.5rem; color: var(--accent);"></i>
+                    <div>
+                        <div style="font-weight: bold;">Chase Bank</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">United States</div>
+                    </div>
+                </div>
+                <div class="bank-option" onclick="selectBank(this)">
+                    <i class="fas fa-university" style="font-size: 1.5rem; color: var(--accent);"></i>
+                    <div>
+                        <div style="font-weight: bold;">Bank of America</div>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">United States</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Account Number</label>
+                <input type="text" placeholder="Enter your bank account number">
+            </div>
+
+            <div class="form-group">
+                <label>Withdrawal Amount (USD)</label>
+                <input type="number" id="withdraw-amount" placeholder="Max: $25,430.00">
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%;" onclick="processWithdrawal()">
+                Confirm Withdrawal
+            </button>
+            
+            <p style="text-align: center; margin-top: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                <i class="fas fa-lock"></i> Secured by 256-bit encryption
+            </p>
+        </div>
+    </div>
+
+    <!-- WhatsApp Widget -->
+    <div class="whatsapp-widget">
+        <div class="whatsapp-tooltip">Chat with us on WhatsApp</div>
+        <a href="https://wa.me/1234567890" target="_blank" class="whatsapp-button">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <!-- Live Chat Widget -->
+    <div class="live-chat">
+        <button class="chat-button" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chat-window" id="chat-window">
+            <div class="chat-header">
+                <div>
+                    <div style="font-weight: bold;">ElloitFxMarket Support</div>
+                    <div style="font-size: 0.85rem; color: var(--success);">● Online</div>
+                </div>
+                <button style="background: none; border: none; color: var(--text-secondary); cursor: pointer;" onclick="toggleChat()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-body" id="chat-body">
+                <div class="chat-message support">
+                    Hello! Welcome to ElloitFxMarket. How can I assist you with your trading today?
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="Type your message..." onkeypress="handleChatKey(event)">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <div class="toast-title" id="toast-title">Success</div>
+        <div class="toast-message" id="toast-message">Operation completed successfully</div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Regulation</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Risk Disclosure</a>
+            <a href="#">Contact</a>
+        </div>
+        <p>&copy; 2026 ElloitFxMarket. All rights reserved. <br>
+        <span style="font-size: 0.85rem; opacity: 0.7;">Disclaimer: Trading forex involves significant risk of loss. This is a demonstration website only.</span></p>
+    </footer>
+
+    <script>
+        // Show/Hide Sections
+        function showSection(section) {
+            // Hide all sections
+            document.getElementById('home-section').style.display = 'none';
+            document.querySelector('.ticker').style.display = 'none';
+            document.querySelector('.features').style.display = 'none';
+            document.querySelector('.footer').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('admin-panel').style.display = 'none';
+            
+            if (section === 'home') {
+                document.getElementById('home-section').style.display = 'grid';
+                document.querySelector('.ticker').style.display = 'block';
+                document.querySelector('.features').style.display = 'block';
+                document.querySelector('.footer').style.display = 'block';
+            } else if (section === 'dashboard') {
+                document.getElementById('dashboard').style.display = 'block';
+                initChart();
+            } else if (section === 'admin') {
+                document.getElementById('admin-panel').style.display = 'block';
+            }
+        }
+
+        // Demo Login
+        function loginDemo() {
+            showToast('Welcome Back', 'Successfully logged in as John Doe');
+            setTimeout(() => showSection('dashboard'), 1000);
+        }
+
+        // Chart Initialization
+        let chartInstance;
+        function initChart() {
+            if (chartInstance) return;
+            
+            const ctx = document.getElementById('tradingChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['10:00', '10:05', '10:10', '10:15', '10:20', '10:25', '10:30'],
+                    datasets: [{
+                        label: 'EUR/USD',
+                        data: [1.0840, 1.0842, 1.0845, 1.0843, 1.0848, 1.0850, 1.0845],
+                        borderColor: '#64ffda',
+                        backgroundColor: 'rgba(100, 255, 218, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#e6f1ff' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#8892b0' },
+                            grid: { color: 'rgba(100, 255, 218, 0.1)' }
+                        },
+                        y: {
+                            ticks: { color: '#8892b0' },
+                            grid: { color: 'rgba(100, 255, 218, 0.1)' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Trading Functions
+        function switchTab(btn, type) {
+            document.querySelectorAll('.trade-tab').forEach(tab => tab.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function placeTrade() {
+            showToast('Trade Executed', 'Your order has been placed successfully');
+        }
+
+        // Withdrawal Modal
+        function openWithdrawalModal() {
+            document.getElementById('withdrawal-modal').style.display = 'flex';
+        }
+
+        function closeWithdrawalModal() {
+            document.getElementById('withdrawal-modal').style.display = 'none';
+        }
+
+        function selectBank(element) {
+            document.querySelectorAll('.bank-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function processWithdrawal() {
+            const amount = document.getElementById('withdraw-amount').value;
+            if (!amount || amount <= 0) {
+                showToast('Error', 'Please enter a valid amount');
+                return;
+            }
+            showToast('Withdrawal Initiated', `Your withdrawal of $${amount} is being processed`);
+            closeWithdrawalModal();
+        }
+
+        // Admin Functions
+        function showAdminTab(tab) {
+            document.querySelectorAll('.admin-menu a').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('admin-users').classList.add('hidden');
+            document.getElementById('admin-funding').classList.add('hidden');
+            
+            if (tab === 'users') document.getElementById('admin-users').classList.remove('hidden');
+            if (tab === 'funding') document.getElementById('admin-funding').classList.remove('hidden');
+        }
+
+        function openFundModal(username) {
+            showAdminTab('funding');
+            const select = document.getElementById('fund-user-select');
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].text.includes(username)) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+
+        function processFunding() {
+            const amount = document.getElementById('fund-amount').value;
+            const user = document.getElementById('fund-user-select').value;
+            if (!amount) {
+                showToast('Error', 'Please enter an amount');
+                return;
+            }
+            showToast('Account Funded', `Successfully added $${amount} to ${user.split('(')[0]}`);
+            document.getElementById('fund-amount').value = '';
+        }
+
+        // Chat Functions
+        function toggleChat() {
+            document.getElementById('chat-window').classList.toggle('active');
+        }
+
+        function handleChatKey(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const chatBody = document.getElementById('chat-body');
+            
+            // User message
+            const userMsg = document.createElement('div');
+            userMsg.className = 'chat-message user';
+            userMsg.textContent = message;
+            chatBody.appendChild(userMsg);
+            
+            input.value = '';
+            chatBody.scrollTop = chatBody.scrollHeight;
+            
+            // Auto reply
+            setTimeout(() => {
+                const supportMsg = document.createElement('div');
+                supportMsg.className = 'chat-message support';
+                supportMsg.textContent = "Thank you for your message. A support agent will assist you shortly. For immediate help, please use WhatsApp.";
+                chatBody.appendChild(supportMsg);
+                chatBody.scrollTop = chatBody.scrollHeight;
+            }, 1000);
+        }
+
+        // Toast Notification
+        function showToast(title, message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').textContent = title;
+            document.getElementById('toast-message').textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Close modal on outside click
+        window.onclick = function(event) {
+            const modal = document.getElementById('withdrawal-modal');
+            if (event.target === modal) {
+                closeWithdrawalModal();
+            }
+        }
+    </script>
+</body>
+</html>
